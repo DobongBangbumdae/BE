@@ -8,10 +8,10 @@ assignees: ''
 ---
 
 ---
-name: "✨ 기능 요청"
-about: "새로운 기능에 대한 제안 또는 요청을 작성합니다."
-title: "[Feature]: "
-labels: ["enhancement"]
+name: "✨ 기능 요청"<br>
+about: "새로운 기능에 대한 제안 또는 요청을 작성합니다."<br>
+title: "[Feature]: "<br>
+labels: ["enhancement"]<br>
 assignees: []
 ---
 
