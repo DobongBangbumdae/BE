@@ -1,4 +1,4 @@
-package com.example.dobong;
+package com.dobongzip.dobong;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
