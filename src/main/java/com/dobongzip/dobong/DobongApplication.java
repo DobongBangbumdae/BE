@@ -1,4 +1,4 @@
-package org.example.dobong;
+package com.dobongzip.dobong;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
