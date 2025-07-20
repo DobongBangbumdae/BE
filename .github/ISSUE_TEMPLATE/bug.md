@@ -1,17 +1,8 @@
 ---
-name: bug.md
-about: bug.md
-title: ''
-labels: ''
-assignees: ''
-
----
-
----
-name: "🐞 버그 보고"<br>
-about: "발생한 버그에 대한 상세 내용을 작성합니다."<br>
-title: "[Bug]: "<br>
-labels: ["bug"]<br>
+name: "🐞 버그 보고"
+about: "발생한 버그에 대한 상세 내용을 작성합니다."
+title: "[Bug] "
+labels: ["bug"]
 assignees: []
 ---
 
