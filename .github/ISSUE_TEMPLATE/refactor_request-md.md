@@ -1,13 +1,4 @@
 ---
-name: refactor_request.md
-about: refactor_request.md
-title: ''
-labels: ''
-assignees: ''
-
----
-
----
 name: "🔨 리팩토링 요청"
 about: "기존 코드의 유지보수성 및 품질 향상을 위한 리팩토링을 요청합니다."
 title: "[Refactor]: "
