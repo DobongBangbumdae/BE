@@ -19,6 +19,13 @@ public class UserService {
 
     public void signup(SignupRequestDto request) {
 
+        // 이미 존재하는 appId가 있으면 예외 발생
+        if (userRepository.findByAppId(request.getAppId()).isPresent()) {
+            throw new BusinessException(StatusCode.USER_ALREADY_EXISTS);
+        }
+
+
+
         // 비밀번호 조건 검증
         if (!isValidPassword(request.getPassword())) {
             throw new BusinessException(StatusCode.INVALID_PASSWORD_FORMAT);
