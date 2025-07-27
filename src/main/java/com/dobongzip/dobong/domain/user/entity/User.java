@@ -14,7 +14,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique = true)
     private String appId;         // 아이디
     private String password;      // 비밀번호 (암호화된 상태)
     private String phoneNumber;
