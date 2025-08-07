@@ -7,6 +7,7 @@ import com.dobongzip.dobong.domain.user.entity.User;
 import com.dobongzip.dobong.domain.user.repository.UserRepository;
 import com.dobongzip.dobong.global.exception.BusinessException;
 import com.dobongzip.dobong.global.response.StatusCode;
+import com.dobongzip.dobong.global.security.enums.LoginType;
 import com.dobongzip.dobong.global.security.jwt.AuthenticatedProvider;
 import com.dobongzip.dobong.global.security.util.PasswordValidator;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,11 @@ public class MypageService {
     @Transactional
     public void changePassword(PasswordChangeRequestDto dto) {
         User user = authenticatedProvider.getCurrentUser();
+
+        //  소셜 로그인 사용자는 비밀번호 변경 불가
+        if (user.getLoginType() != LoginType.APP) {
+            throw new BusinessException(StatusCode.NOT_ALLOWED_FOR_SOCIAL_LOGIN);
+        }
 
         // 1. 현재 비밀번호 검증
         if (!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword())) {
