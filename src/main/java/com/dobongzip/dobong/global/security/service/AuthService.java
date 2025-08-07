@@ -6,6 +6,7 @@ import com.dobongzip.dobong.global.exception.BusinessException;
 import com.dobongzip.dobong.global.response.StatusCode;
 import com.dobongzip.dobong.global.security.dto.auth.request.AppLoginRequestDto;
 import com.dobongzip.dobong.global.security.dto.auth.request.AppSignupRequestDto;
+import com.dobongzip.dobong.global.security.dto.auth.request.PasswordResetRequestDto;
 import com.dobongzip.dobong.global.security.dto.auth.request.ProfileRequestDto;
 import com.dobongzip.dobong.global.security.dto.auth.response.LoginResponseDto;
 import com.dobongzip.dobong.global.security.enums.LoginType;
@@ -76,6 +77,27 @@ public class AuthService {
         user.updateProfile(request);
     }
 
+
+    @Transactional
+    public void resetPassword(PasswordResetRequestDto dto) {
+        User user = userRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new BusinessException(StatusCode.USER_NOT_FOUND_BY_EMAIL));
+
+        //  로그인 타입이 APP인지 확인
+        if (user.getLoginType() != LoginType.APP) {
+            throw new BusinessException(StatusCode.NOT_ALLOWED_FOR_SOCIAL_LOGIN);
+        }
+
+        // 비밀번호 일치 & 포맷 검증
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            throw new BusinessException(StatusCode.PASSWORD_CONFIRM_NOT_MATCH);
+        }
+
+        PasswordValidator.validate(dto.getNewPassword());
+
+        // 새 비밀번호 저장
+        user.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+    }
 
 
 
