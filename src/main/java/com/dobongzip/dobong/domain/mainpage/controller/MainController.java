@@ -4,6 +4,7 @@ import com.dobongzip.dobong.domain.mainpage.dto.request.EventSearchRequest;
 import com.dobongzip.dobong.domain.mainpage.dto.response.EventDto;
 import com.dobongzip.dobong.domain.mainpage.service.MainService;
 import com.dobongzip.dobong.global.response.CommonResponse;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,19 @@ public class MainController {
         req.setDate(date);
         return ResponseEntity.ok(CommonResponse.onSuccess(mainService.getDobongToday(req)));
     }
+
+    @Operation(
+            summary = "도봉구 문화유산 조회",
+            description = "도봉구에서 제공하는 문화유산 개방 API를 호출해, "
+                    + "현재 보유한 문화유산 목록과 관련 정보를 JSON 형태로 반환합니다. "
+                    + "응답 데이터는 외부 공공 API 'CONT_DATA_ROW' 항목을 기반으로 합니다."
+    )
+    @GetMapping("/heritage")
+    public ResponseEntity<CommonResponse<JsonNode>> getDobongHeritage() {
+        return ResponseEntity.ok(
+                CommonResponse.onSuccess(mainService.getDobongCulturalHeritage())
+        );
+    }
+
 
 }
