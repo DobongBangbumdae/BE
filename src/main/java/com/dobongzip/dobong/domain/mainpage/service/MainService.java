@@ -1,9 +1,11 @@
 package com.dobongzip.dobong.domain.mainpage.service;
 
+import com.dobongzip.dobong.domain.mainpage.client.DobongOpenApiClient;
 import com.dobongzip.dobong.domain.mainpage.client.SeoulEventClient;
 import com.dobongzip.dobong.domain.mainpage.dto.request.EventSearchRequest;
 import com.dobongzip.dobong.domain.mainpage.dto.response.EventDto;
 import com.dobongzip.dobong.domain.mainpage.dto.response.SeoulEventResponse;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,8 @@ public class MainService {
     private static final DateTimeFormatter F = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private final SeoulEventClient client;
+
+    private final DobongOpenApiClient dobongOpenApiClient;
 
     public List<EventDto> getDobongToday(EventSearchRequest req) {
         String dateStr = (req.getDate()==null || req.getDate().isBlank())
@@ -98,4 +102,24 @@ public class MainService {
         try { return LocalDate.parse(s, F); }
         catch (Exception ex) { return null; }
     }
+
+    public JsonNode getDobongCulturalHeritage() {
+        try {
+            String response = dobongOpenApiClient.requestDobongData();
+            ObjectMapper mapper = new ObjectMapper();
+
+            JsonNode outer = mapper.readTree(response);
+
+            // 기존 "data" 대신 실제 key 사용
+            JsonNode dataNode = outer.get("CONT_DATA_ROW");
+            if (dataNode == null) {
+                throw new IllegalStateException("'CONT_DATA_ROW' 필드가 없습니다. 응답: " + outer.toPrettyString());
+            }
+            return dataNode;
+        } catch (Exception e) {
+            throw new RuntimeException("도봉 문화유산 데이터 처리 중 오류", e);
+        }
+    }
+
+
 }
